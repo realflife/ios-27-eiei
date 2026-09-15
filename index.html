@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060a" />
+    <meta name="description" content="สำรวจคุณสมบัติ iOS 27 แบบเข้าใจง่าย ตั้งแต่ Siri AI ไปจนถึงประสิทธิภาพ ความปลอดภัย และอุปกรณ์ที่รองรับ" />
+    <title>iOS 27 — Intelligence, Refined</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <div class="ambient ambient-one"></div>
+      <div class="ambient ambient-two"></div>
+
+      <header class="topbar">
+        <a class="brand" href="#overview" aria-label="กลับสู่ด้านบน">
+          <span class="brand-mark">27</span>
+          <span>iOS Field Guide</span>
+        </a>
+        <nav aria-label="เมนูหลัก">
+          <a href="#features">ฟีเจอร์</a>
+          <a href="#performance">ประสิทธิภาพ</a>
+          <a href="#compatibility">รองรับ</a>
+        </nav>
+        <button class="sound-toggle" type="button" @click="reducedMotion = !reducedMotion" :aria-pressed="reducedMotion">
+          {{ reducedMotion ? 'เปิด Motion' : 'ลด Motion' }}
+        </button>
+      </header>
+
+      <main>
+        <section id="overview" class="hero section-shell">
+          <div class="hero-copy">
+            <p class="eyebrow">A COMPLETE FIELD GUIDE · 2026</p>
+            <h1>iOS <span>27</span></h1>
+            <p class="hero-lead">ฉลาดขึ้นในแบบที่เป็นส่วนตัว เร็วขึ้นในทุกจังหวะ และพร้อมช่วยทำสิ่งต่าง ๆ แทนคุณมากกว่าเดิม</p>
+            <div class="hero-actions">
+              <a class="primary-action" href="#features">สำรวจฟีเจอร์ <span aria-hidden="true">↓</span></a>
+              <a class="text-action" href="#compatibility">เช็กเครื่องที่รองรับ</a>
+            </div>
+            <div class="hero-facts" aria-label="ข้อมูลสำคัญ">
+              <div><strong>14 ก.ย.</strong><span>เริ่มเปิดให้อัปเดต</span></div>
+              <div><strong>iPhone 11+</strong><span>รุ่นที่รองรับระบบ</span></div>
+              <div><strong>15 Pro+</strong><span>สำหรับ AI รุ่นใหม่</span></div>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="ประติมากรรมสามมิติแสดงแกนกลางของ iOS 27">
+            <canvas id="ios-orb"></canvas>
+            <div class="orb-label">
+              <span>CORE SYSTEM</span>
+              <strong>27</strong>
+            </div>
+            <div class="orbit-note note-ai">Siri AI</div>
+            <div class="orbit-note note-speed">+30% launch</div>
+            <div class="orbit-note note-photo">Spatial Reframe</div>
+          </div>
+        </section>
+
+        <section class="signal-strip" aria-label="ภาพรวมคุณสมบัติ">
+          <span v-for="item in signals" :key="item">{{ item }}</span>
+        </section>
+
+        <section id="features" class="features section-shell">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">EXPLORE THE SYSTEM</p>
+              <h2>ทุกการเปลี่ยนแปลง<br />ในที่เดียว</h2>
+            </div>
+            <p>เลือกหมวดเพื่อดูเฉพาะสิ่งที่สนใจ แต่ละฟีเจอร์อธิบายด้วยภาษาง่าย พร้อมข้อจำกัดที่ควรรู้ก่อนอัปเดต</p>
+          </div>
+
+          <div class="feature-nav" role="tablist" aria-label="หมวดคุณสมบัติ">
+            <button v-for="category in categories" :key="category.id" type="button" role="tab"
+              :aria-selected="activeCategory === category.id" :class="{ active: activeCategory === category.id }"
+              @click="activeCategory = category.id">
+              <span>{{ category.symbol }}</span>{{ category.label }}
+            </button>
+          </div>
+
+          <div class="feature-grid">
+            <article v-for="(feature, index) in filteredFeatures" :key="feature.title" class="feature-card"
+              :class="['tone-' + feature.tone, { expanded: expandedFeature === feature.title }]"
+              @click="toggleFeature(feature.title)" @keydown.enter="toggleFeature(feature.title)" tabindex="0">
+              <div class="card-index">0{{ index + 1 }}</div>
+              <div class="feature-icon" aria-hidden="true">{{ feature.symbol }}</div>
+              <h3>{{ feature.title }}</h3>
+              <p>{{ feature.summary }}</p>
+              <div class="feature-detail" v-if="expandedFeature === feature.title">
+                <span>ใช้จริงอย่างไร</span>
+                <p>{{ feature.detail }}</p>
+                <small v-if="feature.limit">ข้อควรรู้: {{ feature.limit }}</small>
+              </div>
+              <button type="button" class="expand-control" :aria-label="'ดูรายละเอียด ' + feature.title" :aria-expanded="expandedFeature === feature.title">
+                {{ expandedFeature === feature.title ? '−' : '+' }}
+              </button>
+            </article>
+          </div>
+        </section>
+
+        <section class="siri-story section-shell">
+          <div class="siri-panel">
+            <div class="siri-glow"></div>
+            <p class="eyebrow">THE BIGGEST UPDATE</p>
+            <h2>Siri AI.<br />เข้าใจบริบท<br />และลงมือทำ</h2>
+            <p>ถามต่อเนื่องได้เหมือนบทสนทนา ค้นสิ่งที่คุณเคยเก็บไว้ และทำงานในแอปต่าง ๆ โดยไม่ต้องสลับหน้าจอเองทุกขั้นตอน</p>
+            <ul>
+              <li><span>01</span>ค้นหารูป อีเมล หรือโน้ตด้วยคำพูดธรรมชาติ</li>
+              <li><span>02</span>สร้างนัดหมาย ส่งข้อความ หรือเพิ่มเพลงจากบริบทปัจจุบัน</li>
+              <li><span>03</span>กลับมาคุยต่อผ่านแอป Siri บนอุปกรณ์ที่รองรับ</li>
+            </ul>
+            <div class="availability-badge">ทยอยเปิดใช้เป็นภาษาอังกฤษก่อน</div>
+          </div>
+          <div class="conversation-demo" aria-label="ตัวอย่างการทำงานของ Siri AI">
+            <div class="demo-top"><span>9:41</span><span class="pulse"></span></div>
+            <div class="ask-chip">Ask Siri</div>
+            <p class="user-query">“หารูปทริปเชียงใหม่ที่มีภูเขา แล้วเพิ่มรูปที่ดีที่สุดลงอัลบั้มเที่ยวปีนี้”</p>
+            <div class="thinking-line"><i></i><i></i><i></i></div>
+            <div class="result-stack">
+              <div class="photo-placeholder photo-one"></div>
+              <div class="photo-placeholder photo-two"></div>
+              <div class="photo-placeholder photo-three"></div>
+            </div>
+            <div class="done-row"><span>✓</span> พบ 18 รูป · เพิ่มรูปที่ดีที่สุดแล้ว</div>
+          </div>
+        </section>
+
+        <section id="performance" class="performance section-shell">
+          <div class="section-heading compact">
+            <div><p class="eyebrow">SYSTEM, TUNED</p><h2>เร็วขึ้นอย่าง<br />รู้สึกได้</h2></div>
+            <p>ตัวเลขประสิทธิภาพสูงสุดที่ Apple ระบุ ผลลัพธ์จริงแตกต่างตามรุ่นเครื่อง สภาพแบตเตอรี่ และรูปแบบการใช้งาน</p>
+          </div>
+          <div class="metric-grid">
+            <div class="metric"><span>เปิดแอป</span><strong>30<sup>%</sup></strong><div class="meter"><i style="width: 62%"></i></div><small>เร็วขึ้นสูงสุด</small></div>
+            <div class="metric highlight"><span>โหลดคลังรูป</span><strong>70<sup>%</sup></strong><div class="meter"><i style="width: 88%"></i></div><small>เร็วขึ้นสูงสุด</small></div>
+            <div class="metric"><span>ส่งผ่าน AirDrop</span><strong>80<sup>%</sup></strong><div class="meter"><i style="width: 96%"></i></div><small>เร็วขึ้นสูงสุด</small></div>
+          </div>
+          <div class="performance-notes">
+            <div><span>⇄</span><h3>Network Handoff</h3><p>สลับ Wi‑Fi และเครือข่ายมือถือได้ลื่นขึ้น เพื่อลดการสะดุดระหว่างเดินทาง</p></div>
+            <div><span>◫</span><h3>Liquid Glass</h3><p>เพิ่มความชัดและคอนทราสต์ พร้อมตัวปรับระดับความโปร่งใสให้เหมาะกับสายตา</p></div>
+            <div><span>⌕</span><h3>Relevant Search</h3><p>Mail จัดลำดับผลค้นหาใหม่ เพื่อนำข้อความที่เกี่ยวข้องที่สุดขึ้นมาก่อน</p></div>
+          </div>
+        </section>
+
+        <section id="compatibility" class="compatibility section-shell">
+          <div class="compat-intro">
+            <p class="eyebrow">COMPATIBILITY CHECK</p>
+            <h2>เครื่องคุณ<br />ไปต่อได้ไหม?</h2>
+            <p>iOS 27 รองรับ iPhone 11 และใหม่กว่า รวมถึง iPhone SE รุ่นที่ 2 ขึ้นไป แต่ Apple Intelligence ต้องใช้ฮาร์ดแวร์ที่ใหม่กว่า</p>
+          </div>
+          <div class="compat-checker">
+            <label for="device-select">เลือกรุ่น iPhone ของคุณ</label>
+            <select id="device-select" v-model="selectedDevice">
+              <option v-for="device in devices" :key="device.name" :value="device.name">{{ device.name }}</option>
+            </select>
+            <div class="compat-result" :class="deviceResult.status">
+              <div class="result-orb">{{ deviceResult.status === 'full' ? '✓' : deviceResult.status === 'system' ? '◐' : '×' }}</div>
+              <div>
+                <span>{{ deviceResult.kicker }}</span>
+                <h3>{{ deviceResult.title }}</h3>
+                <p>{{ deviceResult.description }}</p>
+              </div>
+            </div>
+            <div class="legend"><span><i class="full"></i>ระบบ + AI รุ่นใหม่</span><span><i class="system"></i>ระบบหลัก</span><span><i class="none"></i>ไม่รองรับ</span></div>
+          </div>
+        </section>
+
+        <section class="decision section-shell">
+          <p class="eyebrow">THE BOTTOM LINE</p>
+          <h2>ควรอัปเดตไหม?</h2>
+          <div class="decision-grid">
+            <div class="yes"><span>อัปเดตเลย</span><h3>ถ้าคุณต้องการความปลอดภัย ความเร็ว และระบบที่เสถียรกว่า</h3><p>ผู้ใช้เครื่องรุ่นที่รองรับยังได้ประโยชน์จากการปรับระบบ แม้จะใช้ฟีเจอร์ AI ได้ไม่ครบ</p></div>
+            <div><span>ตรวจสอบก่อน</span><h3>ถ้าแอปสำคัญหรืออุปกรณ์เสริมเป็นส่วนหนึ่งของงานประจำ</h3><p>เช็กความเข้ากันได้ พื้นที่ว่าง และภาษาไทยของฟีเจอร์ AI ก่อนเริ่มอัปเดต</p></div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div><span class="brand-mark">27</span><p>คู่มืออิสระเพื่อทำความเข้าใจ iOS 27 อย่างรวดเร็ว</p></div>
+        <div class="sources">
+          <span>แหล่งข้อมูลทางการ</span>
+          <a href="https://www.apple.com/os/ios/" target="_blank" rel="noreferrer">Apple — iOS 27 ↗</a>
+          <a href="https://www.apple.com/ios/feature-availability/" target="_blank" rel="noreferrer">Feature Availability ↗</a>
+          <a href="https://www.apple.com/newsroom/2026/06/apple-unveils-next-generation-of-apple-intelligence-siri-ai-and-more/" target="_blank" rel="noreferrer">Apple Newsroom ↗</a>
+        </div>
+        <p class="disclaimer">ชื่อผลิตภัณฑ์และเครื่องหมายการค้าเป็นของเจ้าของที่เกี่ยวข้อง เว็บไซต์นี้ไม่ใช่เว็บไซต์ทางการของ Apple</p>
+      </footer>
+    </div>
+
+    <script type="module" src="./app.js?v=2"></script>
+  </body>
+</html>
